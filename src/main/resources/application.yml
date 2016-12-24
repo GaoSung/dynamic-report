@@ -1,0 +1,45 @@
+server:
+  port: ${PORT:8080}
+  context-path: ${CONTEXTPATH:}
+
+logging:
+  level:
+    org:
+      springframework:
+        data:
+          elasticsearch: DEBUG  # To show the search query
+        
+spring:
+  profiles:
+    active: ${PROFILE:develop}
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver    
+    url: ${MYSQL_URL:jdbc:mysql://10.112.4.207/dynamic-report?useUnicode=true&characterEncoding=utf8}
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PASS:123456}
+    type: org.apache.tomcat.jdbc.pool.DataSource
+    tomcat: 
+      test-while-idle: true
+      time-between-eviction-runs-millis: 30000 
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 1
+      remove-abandoned: true
+  
+  jpa:
+    show-sql: true
+    
+  data:
+    elasticsearch:
+      cluster-nodes: ${ES_NODES:10.112.4.201:9300}
+    
+flyway:
+  url: ${MYSQL_URL:jdbc:mysql://10.112.4.207/dynamic-report?useUnicode=true&characterEncoding=utf8}
+  user: ${MYSQL_USER:root}
+  password: ${MYSQL_PASS:123456}
+  validateOnMigrate: false  # ignore flyway validation
+  baselineOnMigrate: true    
+       
+report:
+  es:
+    http-nodes: ${ES_HTTP_NODES:10.112.4.201:9200} 
+        
